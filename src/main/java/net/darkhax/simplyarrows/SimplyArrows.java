@@ -32,7 +32,7 @@ public class SimplyArrows {
 
         itemArrowBone = REGISTRY.registerItem(new ItemArrowBase().setDamage(1f).setInfinity(true), "arrow_bone");
         itemArrowFlint = REGISTRY.registerItem(new ItemArrowBase().setDamage(2f).setInfinity(true), "arrow_flint");
-        itemArrowIron = REGISTRY.registerItem(new ItemArrowBase().setDamage(3f).setInfinity(true), "arrow_iron");
+        itemArrowIron = REGISTRY.registerItem(new ItemArrowBase().setDamage(3f).setKnockback(1).setInfinity(true), "arrow_iron");
         itemArrowFlame = (ItemArrowBase) REGISTRY.registerItem(new ItemArrowBase().setDamage(2f).setFlaming(true), "arrow_flame");
         itemArrowCake = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicPlaceBlock(Blocks.CAKE.getDefaultState(), new ItemStack(Items.CAKE))), "arrow_cake");
 
