@@ -55,17 +55,16 @@ repositories {
         url "http://maven.mcmoddev.com"
     }
 	
-	    
-    maven { 
-    
-        url 'https://jitpack.io' 
+	maven {
+
+        url 'http://dvs1.progwml6.com/files/maven'
     }
 }
 
 dependencies {
 
     deobfCompile "net.darkhax.bookshelf:Bookshelf-1.12.2:${version_bookshelf}"
-	compile 'com.github.Azanor:Baubles:7035b13'
+    deobfCompile "mezz.jei:jei_1.12.2:${version_jei}"
 }
 
 processResources {
