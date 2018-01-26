@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.darkhax.bookshelf.entity.EntityArrowBase;
+import net.darkhax.simplyarrows.entity.EntitySimpleArrow;
+import net.darkhax.simplyarrows.logic.IArrowLogic;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,6 +25,7 @@ public class ItemArrowBase extends ItemArrow {
     private int knockback = 0;
     private boolean flaming = false;
     private ItemStack dropItem = ItemStack.EMPTY;
+    private IArrowLogic logic;
 
     public ItemArrowBase () {
 
@@ -33,7 +35,8 @@ public class ItemArrowBase extends ItemArrow {
     @Override
     public EntityArrow createArrow (World world, ItemStack stack, EntityLivingBase shooter) {
 
-        final EntityArrowBase arrow = new EntityArrowBase(world, this.dropItem.copy(), shooter);
+        final EntitySimpleArrow arrow = new EntitySimpleArrow(world, this.dropItem.copy(), shooter);
+        arrow.setLogic(this.logic);
         arrow.setDamage(this.damage);
         arrow.setKnockbackStrength(this.knockback);
 
@@ -111,6 +114,17 @@ public class ItemArrowBase extends ItemArrow {
     public ItemArrowBase setDropItem (ItemStack dropItem) {
 
         this.dropItem = dropItem;
+        return this;
+    }
+
+    public IArrowLogic getLogic () {
+
+        return this.logic;
+    }
+
+    public ItemArrowBase setLogic (IArrowLogic logic) {
+
+        this.logic = logic;
         return this;
     }
 }
