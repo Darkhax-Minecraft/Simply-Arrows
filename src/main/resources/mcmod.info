@@ -1,0 +1,23 @@
+[  
+   {  
+      "modid":"simplyarrows",
+      "name":"Simply Arrows",
+      "description":"Simply adds arrows.",
+      "version":"${version}",
+      "mcversion":"${mcversion}",
+      "url":"https://minecraft.curseforge.com/projects/simply-arrows",
+      "updateUrl":"",
+      "authorList":[  
+         "Darkhax"
+      ],
+      "credits":"",
+      "logoFile":"",
+      "screenshots":[  
+
+      ],
+      "parent":"",
+      "dependencies":[  
+
+      ]
+   }
+]
