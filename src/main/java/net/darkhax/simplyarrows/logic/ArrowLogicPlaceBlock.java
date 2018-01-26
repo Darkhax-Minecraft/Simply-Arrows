@@ -34,7 +34,7 @@ public class ArrowLogicPlaceBlock implements IArrowLogic {
             arrow.setDead();
         }
 
-        else {
+        else if (this.fallbackItem.isEmpty()) {
 
             StackUtils.dropStackInWorld(arrow.getEntityWorld(), pos, this.fallbackItem);
             arrow.setDead();
