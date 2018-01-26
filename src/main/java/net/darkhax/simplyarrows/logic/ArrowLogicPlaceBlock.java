@@ -12,6 +12,11 @@ public class ArrowLogicPlaceBlock implements IArrowLogic {
     private final IBlockState placementState;
     private final ItemStack fallbackItem;
 
+    public ArrowLogicPlaceBlock (IBlockState state) {
+
+        this(state, ItemStack.EMPTY);
+    }
+
     public ArrowLogicPlaceBlock (IBlockState state, ItemStack fallback) {
 
         this.placementState = state;
