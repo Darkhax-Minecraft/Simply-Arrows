@@ -2,24 +2,44 @@ package net.darkhax.simplyarrows.logic;
 
 import net.darkhax.bookshelf.util.StackUtils;
 import net.darkhax.simplyarrows.entity.EntitySimpleArrow;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 
 public class ArrowLogicPlaceBlock implements IArrowLogic {
 
-    private final IBlockState placementState;
+    private final Block block;
+    private final int meta;
     private final ItemStack fallbackItem;
 
-    public ArrowLogicPlaceBlock (IBlockState state) {
+    public ArrowLogicPlaceBlock (Block block) {
 
-        this(state, ItemStack.EMPTY);
+        this(block, 0);
     }
 
-    public ArrowLogicPlaceBlock (IBlockState state, ItemStack fallback) {
+    public ArrowLogicPlaceBlock (Block block, Item item) {
 
-        this.placementState = state;
+        this(block, new ItemStack(item));
+    }
+
+    public ArrowLogicPlaceBlock (Block block, ItemStack fallback) {
+
+        this(block, 0, fallback);
+    }
+
+    public ArrowLogicPlaceBlock (Block block, int meta) {
+
+        this(block, meta, ItemStack.EMPTY);
+    }
+
+    public ArrowLogicPlaceBlock (Block block, int meta, ItemStack fallback) {
+
+        this.block = block;
+        this.meta = meta;
         this.fallbackItem = fallback;
     }
 
@@ -28,9 +48,10 @@ public class ArrowLogicPlaceBlock implements IArrowLogic {
 
         final BlockPos pos = hit.getBlockPos().offset(hit.sideHit);
 
-        if (arrow.getEntityWorld().isAirBlock(pos) || arrow.getEntityWorld().getBlockState(pos).getBlock().isReplaceable(arrow.getEntityWorld(), pos)) {
+        if (this.block.canPlaceBlockOnSide(arrow.world, pos, hit.sideHit)) {
 
-            arrow.getEntityWorld().setBlockState(pos, this.placementState);
+            final EntityLivingBase shooter = arrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase) arrow.shootingEntity : null;
+            arrow.getEntityWorld().setBlockState(pos, this.block.getStateForPlacement(arrow.getEntityWorld(), pos, hit.sideHit, 0.5f, 0.5f, 0.5f, this.meta, shooter, EnumHand.MAIN_HAND));
             arrow.setDead();
         }
 
@@ -41,13 +62,18 @@ public class ArrowLogicPlaceBlock implements IArrowLogic {
         }
     }
 
-    public IBlockState getPlacementState () {
-
-        return this.placementState;
-    }
-
     public ItemStack getFallbackItem () {
 
         return this.fallbackItem;
+    }
+
+    public Block getBlock () {
+
+        return this.block;
+    }
+
+    public int getMeta () {
+
+        return this.meta;
     }
 }
