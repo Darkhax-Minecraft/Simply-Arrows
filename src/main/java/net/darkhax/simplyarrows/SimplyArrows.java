@@ -26,6 +26,7 @@ public class SimplyArrows {
     public static Item itemArrowIron;
     public static ItemArrowBase itemArrowFlame;
     public static Item itemArrowCake;
+    public static Item itemTorchArrow;
 
     @EventHandler
     public void preInit (FMLPreInitializationEvent event) {
@@ -35,12 +36,14 @@ public class SimplyArrows {
         itemArrowIron = REGISTRY.registerItem(new ItemArrowBase().setDamage(3f).setKnockback(1).setInfinity(true), "arrow_iron");
         itemArrowFlame = (ItemArrowBase) REGISTRY.registerItem(new ItemArrowBase().setDamage(2f).setFlaming(true).setLogic(new ArrowLogicPlaceBlock(Blocks.FIRE)), "arrow_flame");
         itemArrowCake = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicPlaceBlock(Blocks.CAKE, Items.CAKE)), "arrow_cake");
+        itemTorchArrow = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicPlaceBlock(Blocks.TORCH, Blocks.TORCH)), "arrow_torch");
 
         REGISTRY.addShapedRecipe("arrow_bone", new ItemStack(itemArrowBone, 6), "  i", "br ", "fb ", 'i', OreDictUtils.BONE, 'b', OreDictUtils.STRING, 'r', OreDictUtils.STICK_WOOD, 'f', OreDictUtils.FEATHER);
         REGISTRY.addShapedRecipe("arrow_flint", new ItemStack(itemArrowFlint, 6), "  i", "br ", "fb ", 'i', Items.FLINT, 'b', OreDictUtils.STRING, 'r', OreDictUtils.STICK_WOOD, 'f', OreDictUtils.FEATHER);
         REGISTRY.addShapedRecipe("arrow_iron", new ItemStack(itemArrowIron, 6), "  i", "br ", "fb ", 'i', OreDictUtils.INGOT_IRON, 'b', OreDictUtils.STRING, 'r', OreDictUtils.STICK_WOOD, 'f', OreDictUtils.FEATHER);
         REGISTRY.addShapedRecipe("arrow_flame", new ItemStack(itemArrowFlame, 8), "aaa", "afa", "aaa", 'a', itemArrowFlint, 'f', Items.FIRE_CHARGE);
         REGISTRY.addShapelessRecipe("arrow_cake", new ItemStack(itemArrowCake), Items.CAKE, itemArrowFlint);
+        REGISTRY.addShapelessRecipe("arrow_torch", new ItemStack(itemTorchArrow), Blocks.TORCH, itemArrowFlint);
     }
 
     @EventHandler
