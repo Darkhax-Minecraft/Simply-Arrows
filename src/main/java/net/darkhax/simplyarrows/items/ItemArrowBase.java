@@ -60,9 +60,9 @@ public class ItemArrowBase extends ItemArrow {
     public void addInformation (ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 
         tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.simplyarrows.damage", this.getDamage()));
-        
+
         if (this.knockback > 0) {
-            
+
             tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.simplyarrows.knockback", this.getKnockback()));
         }
     }
