@@ -7,10 +7,10 @@ This project is sponsored by Nodecraft. Use code [Darkhax](https://nodecraft.com
 
 ## Current Items
 
-| Arrow Name    | Base Damage | Affect                                                                               |
+| Arrow Name    | Base Damage | Effect                                                                               |
 |---------------|-------------|--------------------------------------------------------------------------------------|
 | Vanilla Arrow | 2           | This is the vanilla arrow for reference. It is not modified or changed by this mod.  |
-| Bone Arrow    | 1           | No affect.                                                                           |
+| Bone Arrow    | 1           | No effect.                                                                           |
 | Flint Arrow   | 2           | This arrow is equal to the vanilla arrow.                                            |
 | Iron Arrow    | 3           | Has small knock back amount.                                                         |
 | Flame Arrow   | 2           | Sets a mob and block on fire.                                                        |
