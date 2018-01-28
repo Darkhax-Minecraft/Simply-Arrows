@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
 
 public class ArrowLogicPlaceBlock implements IArrowLogic {
 
@@ -19,6 +20,11 @@ public class ArrowLogicPlaceBlock implements IArrowLogic {
     public ArrowLogicPlaceBlock (Block block) {
 
         this(block, 0);
+    }
+
+    public ArrowLogicPlaceBlock (Block block, Block blockItem) {
+
+        this(block, Item.getItemFromBlock(blockItem));
     }
 
     public ArrowLogicPlaceBlock (Block block, Item item) {
@@ -46,18 +52,19 @@ public class ArrowLogicPlaceBlock implements IArrowLogic {
     @Override
     public void onBlockHit (EntitySimpleArrow arrow, RayTraceResult hit) {
 
+        final World world = arrow.getEntityWorld();
         final BlockPos pos = hit.getBlockPos().offset(hit.sideHit);
 
-        if (this.block.canPlaceBlockOnSide(arrow.world, pos, hit.sideHit)) {
+        if (world.getBlockState(pos).getBlock().isReplaceable(world, pos) && this.block.canPlaceBlockOnSide(world, pos, hit.sideHit)) {
 
             final EntityLivingBase shooter = arrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase) arrow.shootingEntity : null;
-            arrow.getEntityWorld().setBlockState(pos, this.block.getStateForPlacement(arrow.getEntityWorld(), pos, hit.sideHit, 0.5f, 0.5f, 0.5f, this.meta, shooter, EnumHand.MAIN_HAND));
+            arrow.getEntityWorld().setBlockState(pos, this.block.getStateForPlacement(world, pos, hit.sideHit, 0.5f, 0.5f, 0.5f, this.meta, shooter, EnumHand.MAIN_HAND));
             arrow.setDead();
         }
 
         else if (!this.fallbackItem.isEmpty()) {
 
-            StackUtils.dropStackInWorld(arrow.getEntityWorld(), pos, this.fallbackItem);
+            StackUtils.dropStackInWorld(world, pos, this.fallbackItem);
             arrow.setDead();
         }
     }
