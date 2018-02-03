@@ -5,6 +5,7 @@ import net.darkhax.bookshelf.registry.RegistryHelper;
 import net.darkhax.bookshelf.util.OreDictUtils;
 import net.darkhax.simplyarrows.creativetab.CreativeTabSimplyArrows;
 import net.darkhax.simplyarrows.items.ItemArrowBase;
+import net.darkhax.simplyarrows.logic.ArrowLogicExplode;
 import net.darkhax.simplyarrows.logic.ArrowLogicLove;
 import net.darkhax.simplyarrows.logic.ArrowLogicPlaceBlock;
 import net.minecraft.init.Blocks;
@@ -29,6 +30,7 @@ public class SimplyArrows {
     public static Item itemArrowCake;
     public static Item itemArrowTorch;
     public static Item itemArrowLove;
+    public static Item itemArrowTNT;
 
     @EventHandler
     public void preInit (FMLPreInitializationEvent event) {
@@ -40,6 +42,7 @@ public class SimplyArrows {
         itemArrowCake = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicPlaceBlock(Blocks.CAKE, Items.CAKE)), "arrow_cake");
         itemArrowTorch = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicPlaceBlock(Blocks.TORCH, Blocks.TORCH)), "arrow_torch");
         itemArrowLove = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicLove()), "arrow_love");
+        itemArrowTNT = REGISTRY.registerItem(new ItemArrowBase().setDamage(1).setLogic(new ArrowLogicExplode(4f)), "arrow_tnt");
 
         REGISTRY.addShapedRecipe("arrow_bone", new ItemStack(itemArrowBone, 6), "  i", "br ", "fb ", 'i', OreDictUtils.BONE, 'b', OreDictUtils.STRING, 'r', OreDictUtils.STICK_WOOD, 'f', OreDictUtils.FEATHER);
         REGISTRY.addShapedRecipe("arrow_flint", new ItemStack(itemArrowFlint, 6), "  i", "br ", "fb ", 'i', Items.FLINT, 'b', OreDictUtils.STRING, 'r', OreDictUtils.STICK_WOOD, 'f', OreDictUtils.FEATHER);
@@ -51,6 +54,7 @@ public class SimplyArrows {
         REGISTRY.addShapelessRecipe("arrow_love_carrot", new ItemStack(itemArrowLove), itemArrowFlint, OreDictUtils.CROP_CARROT);
         REGISTRY.addShapelessRecipe("arrow_love_seed", new ItemStack(itemArrowLove), itemArrowFlint, OreDictUtils.SEED);
         REGISTRY.addShapedRecipe("arrow_love", new ItemStack(itemArrowLove, 6), "awa", "aca", "asa", 'a', itemArrowFlint, 'w', OreDictUtils.CROP_WHEAT, 'c', OreDictUtils.CROP_CARROT, 's', OreDictUtils.SEED);
+        REGISTRY.addShapelessRecipe("arrow_tnt", new ItemStack(itemArrowTNT), itemArrowFlint, Blocks.TNT);
     }
 
     @EventHandler
