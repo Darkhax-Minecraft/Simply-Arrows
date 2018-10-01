@@ -1,0 +1,15 @@
+#Misc
+itemGroup.simplyarrows=Simply ERROWS
+tooltip.simplyarrows.damage=Base Dmg: %d
+tooltip.simplyarrows.knockback=Nockback: %d
+
+#Items
+item.simplyarrows.arrow.bone.name=Doggy Treetz Pew Pew
+item.simplyarrows.arrow.flint.name=Sharpy Rock Pew Pew
+item.simplyarrows.arrow.iron.name=Irun Pew Pew
+item.simplyarrows.arrow.flame.name=Flaem Pew Pew
+item.simplyarrows.arrow.cake.name=Liez Pew Pew
+item.simplyarrows.arrow.torch.name=Burny Stik Pew Pew
+item.simplyarrows.arrow.love.name=Wuv Pew Pew
+item.simplyarrows.arrow.tnt.name=Thatll Maek BOOM Pew Pew
+item.simplyarrows.arrow.ender.name=Endur Pew Pew
