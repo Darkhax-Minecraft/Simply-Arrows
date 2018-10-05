@@ -1,0 +1,12 @@
+item.simplyarrows.arrow.bone.name=Knochenpfeil
+item.simplyarrows.arrow.cake.name=Kuchenpfeil
+item.simplyarrows.arrow.ender.name=Ender-Pfeil
+item.simplyarrows.arrow.flame.name=Feuerpfeil
+item.simplyarrows.arrow.flint.name=Feuerstein-Pfeil
+item.simplyarrows.arrow.iron.name=Eisen-Pfeil
+item.simplyarrows.arrow.love.name=Liebespfeil
+item.simplyarrows.arrow.tnt.name=TNT-Pfeil
+item.simplyarrows.arrow.torch.name=Fackel-Pfeil
+itemGroup.simplyarrows=Simply Arrows
+tooltip.simplyarrows.damage=Schaden: %d
+tooltip.simplyarrows.knockback=Rückstoß: %d
