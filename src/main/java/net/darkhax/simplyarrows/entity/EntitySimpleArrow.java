@@ -1,5 +1,7 @@
 package net.darkhax.simplyarrows.entity;
 
+import org.apache.commons.lang3.EnumUtils;
+
 import io.netty.buffer.ByteBuf;
 import net.darkhax.simplyarrows.logic.EnumArrowLogics;
 import net.minecraft.entity.Entity;
@@ -52,7 +54,7 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
         super.readFromNBT(compound);
         this.arrowStack = new ItemStack(compound.getCompoundTag("ArrowStack"));
         // Enum names are used as they likely to stay consistent between different mod versions
-        this.enumLogic = EnumArrowLogics.valueOf(compound.getString("ArrowLogic"));
+        this.enumLogic = EnumUtils.getEnum(EnumArrowLogics.class, compound.getString("ArrowLogic"));
     }
 
     @Override
