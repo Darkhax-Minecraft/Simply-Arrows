@@ -4,6 +4,7 @@ import net.darkhax.bookshelf.lib.LoggingHelper;
 import net.darkhax.bookshelf.registry.RegistryHelper;
 import net.darkhax.bookshelf.util.OreDictUtils;
 import net.darkhax.simplyarrows.creativetab.CreativeTabSimplyArrows;
+import net.darkhax.simplyarrows.entity.EntitySimpleArrow;
 import net.darkhax.simplyarrows.items.ItemArrowBase;
 import net.darkhax.simplyarrows.logic.ArrowLogicEnder;
 import net.darkhax.simplyarrows.logic.ArrowLogicExplode;
@@ -59,6 +60,8 @@ public class SimplyArrows {
         REGISTRY.addShapedRecipe("arrow_love", new ItemStack(itemArrowLove, 6), "awa", "aca", "asa", 'a', itemArrowFlint, 'w', OreDictUtils.CROP_WHEAT, 'c', OreDictUtils.CROP_CARROT, 's', OreDictUtils.SEED);
         REGISTRY.addShapelessRecipe("arrow_tnt", new ItemStack(itemArrowTNT), itemArrowFlint, Blocks.TNT);
         REGISTRY.addShapelessRecipe("arrow_ender", new ItemStack(itemArrowEnder), itemArrowFlint, OreDictUtils.ENDERPEARL);
+
+        REGISTRY.registerEntity(EntitySimpleArrow.class, "simple_arrow", 1).tracker(64, 20, true);
     }
 
     @EventHandler
