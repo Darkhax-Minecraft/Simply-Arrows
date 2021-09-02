@@ -84,6 +84,13 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
         }
     }
 
+    /** Always returns -1 (no custom color) */
+    @Override
+    public int getColor() {
+
+        return -1;
+    }
+
     public EnumArrowLogics getLogic () {
 
         return this.enumLogic;
