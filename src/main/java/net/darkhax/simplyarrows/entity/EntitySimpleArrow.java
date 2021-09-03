@@ -1,5 +1,7 @@
 package net.darkhax.simplyarrows.entity;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.EnumUtils;
 
 import io.netty.buffer.ByteBuf;
@@ -19,6 +21,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAdditionalSpawnData {
 
     private ItemStack arrowStack;
+    @Nullable
     private EnumArrowLogics enumLogic;
 
     public EntitySimpleArrow (World world) {
@@ -44,7 +47,9 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
         super.writeToNBT(compound);
         compound.setTag("ArrowStack", this.arrowStack.writeToNBT(new NBTTagCompound()));
         // Enum names are used as they likely to stay consistent between different mod versions
-        compound.setTag("ArrowLogic", new NBTTagString(enumLogic.name()));
+        if (enumLogic != null) {
+            compound.setTag("ArrowLogic", new NBTTagString(enumLogic.name()));
+        }
         return compound;
     }
 
@@ -93,6 +98,7 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
         return -1;
     }
 
+    @Nullable
     public EnumArrowLogics getLogic () {
 
         return this.enumLogic;
@@ -106,16 +112,21 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
     @Override
     public void writeSpawnData(ByteBuf data) {
 
-        // Ordinals are used as less data has to be transfered
-        data.writeInt(enumLogic.ordinal());
+        // Ordinals are used as less data has to be transfered. -1 indicates that the enumLogic is null.
+        data.writeInt(enumLogic != null ? enumLogic.ordinal() : -1);
         data.writeInt(shootingEntity != null ? shootingEntity.getEntityId() : -1);
     }
 
     @Override
     public void readSpawnData(ByteBuf data) {
 
-        // Ordinals are used as less data has to be transfered
-        enumLogic = EnumArrowLogics.values()[data.readInt()];
+        // Ordinals are used as less data has to be transfered. -1 indicates that the enumLogic is null.
+        int enumLogicOrdinal = data.readInt();
+
+        if (enumLogicOrdinal >= 0) {
+
+            enumLogic = EnumArrowLogics.values()[enumLogicOrdinal];
+        }
 
         final Entity shootingEntity = world.getEntityByID(data.readInt());
 

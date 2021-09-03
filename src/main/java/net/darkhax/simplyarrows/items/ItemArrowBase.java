@@ -25,6 +25,7 @@ public class ItemArrowBase extends ItemArrow {
     private int knockback = 0;
     private boolean flaming = false;
     private ItemStack dropItem = ItemStack.EMPTY;
+    @Nullable
     private EnumArrowLogics enumLogic;
 
     public ItemArrowBase () {
@@ -122,6 +123,7 @@ public class ItemArrowBase extends ItemArrow {
         return this;
     }
 
+    @Nullable
     public EnumArrowLogics getLogic () {
 
         return this.enumLogic;
