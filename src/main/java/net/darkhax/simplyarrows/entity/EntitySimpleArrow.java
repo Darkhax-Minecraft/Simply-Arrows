@@ -93,7 +93,7 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
 
     /** Always returns -1 (no custom color) */
     @Override
-    public int getColor() {
+    public int getColor () {
 
         return -1;
     }
@@ -110,7 +110,7 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
     }
 
     @Override
-    public void writeSpawnData(ByteBuf data) {
+    public void writeSpawnData (ByteBuf data) {
 
         // Ordinals are used as less data has to be transfered. -1 indicates that the enumLogic is null.
         data.writeInt(enumLogic != null ? enumLogic.ordinal() : -1);
@@ -118,7 +118,7 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
     }
 
     @Override
-    public void readSpawnData(ByteBuf data) {
+    public void readSpawnData (ByteBuf data) {
 
         // Ordinals are used as less data has to be transfered. -1 indicates that the enumLogic is null.
         int enumLogicOrdinal = data.readInt();

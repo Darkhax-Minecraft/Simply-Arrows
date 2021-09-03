@@ -14,12 +14,12 @@ public enum EnumArrowLogics {
 
     private final IArrowLogic logic;
 
-    EnumArrowLogics(IArrowLogic logic) {
+    EnumArrowLogics (IArrowLogic logic) {
 
         this.logic = logic;
     }
 
-    public IArrowLogic getLogic() {
+    public IArrowLogic getLogic () {
 
         return logic;
     }
