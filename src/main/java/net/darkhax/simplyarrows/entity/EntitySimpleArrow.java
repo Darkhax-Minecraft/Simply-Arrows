@@ -1,11 +1,8 @@
 package net.darkhax.simplyarrows.entity;
 
-import java.util.UUID;
-
 import org.apache.commons.lang3.EnumUtils;
 
 import io.netty.buffer.ByteBuf;
-import net.darkhax.bookshelf.util.PlayerUtils;
 import net.darkhax.simplyarrows.logic.EnumArrowLogics;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,14 +45,6 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
         compound.setTag("ArrowStack", this.arrowStack.writeToNBT(new NBTTagCompound()));
         // Enum names are used as they likely to stay consistent between different mod versions
         compound.setTag("ArrowLogic", new NBTTagString(enumLogic.name()));
-
-        // Store shooter UUID, as it's likely to stay consistent between game sessions
-        if (this.shootingEntity != null) {
-
-            UUID shooterUUID = this.shootingEntity.getUniqueID();
-            compound.setUniqueId("ShooterUUID", shooterUUID);
-        }
-
         return compound;
     }
 
@@ -66,13 +55,6 @@ public class EntitySimpleArrow extends EntityTippedArrow implements IEntityAddit
         this.arrowStack = new ItemStack(compound.getCompoundTag("ArrowStack"));
         // Enum names are used as they likely to stay consistent between different mod versions
         this.enumLogic = EnumUtils.getEnum(EnumArrowLogics.class, compound.getString("ArrowLogic"));
-
-        // Attempt to restore shooting entity from UUID
-        if ((shootingEntity == null) && (compound.hasUniqueId("ShooterUUID"))) {
-
-            UUID shooterUUID = compound.getUniqueId("ShooterUUID");
-            this.shootingEntity = PlayerUtils.getPlayerFromUUID(world, shooterUUID);
-        }
     }
 
     @Override
