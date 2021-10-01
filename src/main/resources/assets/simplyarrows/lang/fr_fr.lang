@@ -1,0 +1,15 @@
+#Misc
+itemGroup.simplyarrows=Simples Flêches
+tooltip.simplyarrows.damage=Dégâts de Base: %d
+tooltip.simplyarrows.knockback=Recul: %d
+
+#Items
+item.simplyarrows.arrow.bone.name=Flêche d'Os
+item.simplyarrows.arrow.flint.name=Flêche de Silex
+item.simplyarrows.arrow.iron.name=Flêche de Fer
+item.simplyarrows.arrow.flame.name=Flêche de Feu
+item.simplyarrows.arrow.cake.name=Flêche Gâteau
+item.simplyarrows.arrow.torch.name=Flêche Torche
+item.simplyarrows.arrow.love.name=Flêche d'Amour
+item.simplyarrows.arrow.tnt.name=Flêche Explosive
+item.simplyarrows.arrow.ender.name=Flêche de l'End
