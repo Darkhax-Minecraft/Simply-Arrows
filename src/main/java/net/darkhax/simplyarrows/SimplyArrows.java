@@ -4,11 +4,9 @@ import net.darkhax.bookshelf.lib.LoggingHelper;
 import net.darkhax.bookshelf.registry.RegistryHelper;
 import net.darkhax.bookshelf.util.OreDictUtils;
 import net.darkhax.simplyarrows.creativetab.CreativeTabSimplyArrows;
+import net.darkhax.simplyarrows.entity.EntitySimpleArrow;
 import net.darkhax.simplyarrows.items.ItemArrowBase;
-import net.darkhax.simplyarrows.logic.ArrowLogicEnder;
-import net.darkhax.simplyarrows.logic.ArrowLogicExplode;
-import net.darkhax.simplyarrows.logic.ArrowLogicLove;
-import net.darkhax.simplyarrows.logic.ArrowLogicPlaceBlock;
+import net.darkhax.simplyarrows.logic.EnumArrowLogics;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -40,12 +38,12 @@ public class SimplyArrows {
         itemArrowBone = REGISTRY.registerItem(new ItemArrowBase().setDamage(1f).setInfinity(true), "arrow_bone");
         itemArrowFlint = REGISTRY.registerItem(new ItemArrowBase().setDamage(2f).setInfinity(true), "arrow_flint");
         itemArrowIron = REGISTRY.registerItem(new ItemArrowBase().setDamage(3f).setKnockback(1).setInfinity(true), "arrow_iron");
-        itemArrowFlame = (ItemArrowBase) REGISTRY.registerItem(new ItemArrowBase().setDamage(2f).setFlaming(true).setLogic(new ArrowLogicPlaceBlock(Blocks.FIRE)), "arrow_flame");
-        itemArrowCake = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicPlaceBlock(Blocks.CAKE, Items.CAKE)), "arrow_cake");
-        itemArrowTorch = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicPlaceBlock(Blocks.TORCH, Blocks.TORCH)), "arrow_torch");
-        itemArrowLove = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(new ArrowLogicLove()), "arrow_love");
-        itemArrowTNT = REGISTRY.registerItem(new ItemArrowBase().setDamage(1).setLogic(new ArrowLogicExplode(4f)), "arrow_tnt");
-        itemArrowEnder = REGISTRY.registerItem(new ItemArrowBase().setDamage(1).setLogic(new ArrowLogicEnder()), "arrow_ender");
+        itemArrowFlame = (ItemArrowBase) REGISTRY.registerItem(new ItemArrowBase().setDamage(2f).setFlaming(true).setLogic(EnumArrowLogics.ARROW_FLAME), "arrow_flame");
+        itemArrowCake = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(EnumArrowLogics.ARROW_CAKE), "arrow_cake");
+        itemArrowTorch = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(EnumArrowLogics.ARROW_TORCH), "arrow_torch");
+        itemArrowLove = REGISTRY.registerItem(new ItemArrowBase().setDamage(0).setLogic(EnumArrowLogics.ARROW_LOVE), "arrow_love");
+        itemArrowTNT = REGISTRY.registerItem(new ItemArrowBase().setDamage(1).setLogic(EnumArrowLogics.ARROW_TNT), "arrow_tnt");
+        itemArrowEnder = REGISTRY.registerItem(new ItemArrowBase().setDamage(1).setLogic(EnumArrowLogics.ARROW_ENDER), "arrow_ender");
 
         REGISTRY.addShapedRecipe("arrow_bone", new ItemStack(itemArrowBone, 6), "  i", "br ", "fb ", 'i', OreDictUtils.BONE, 'b', OreDictUtils.STRING, 'r', OreDictUtils.STICK_WOOD, 'f', OreDictUtils.FEATHER);
         REGISTRY.addShapedRecipe("arrow_flint", new ItemStack(itemArrowFlint, 6), "  i", "br ", "fb ", 'i', Items.FLINT, 'b', OreDictUtils.STRING, 'r', OreDictUtils.STICK_WOOD, 'f', OreDictUtils.FEATHER);
@@ -59,6 +57,8 @@ public class SimplyArrows {
         REGISTRY.addShapedRecipe("arrow_love", new ItemStack(itemArrowLove, 6), "awa", "aca", "asa", 'a', itemArrowFlint, 'w', OreDictUtils.CROP_WHEAT, 'c', OreDictUtils.CROP_CARROT, 's', OreDictUtils.SEED);
         REGISTRY.addShapelessRecipe("arrow_tnt", new ItemStack(itemArrowTNT), itemArrowFlint, Blocks.TNT);
         REGISTRY.addShapelessRecipe("arrow_ender", new ItemStack(itemArrowEnder), itemArrowFlint, OreDictUtils.ENDERPEARL);
+
+        REGISTRY.registerEntity(EntitySimpleArrow.class, "simple_arrow", 1).tracker(64, 20, true);
     }
 
     @EventHandler

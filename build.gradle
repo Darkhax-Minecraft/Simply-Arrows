@@ -1,89 +1,131 @@
 buildscript {
 
     repositories {
-    
-        jcenter()
-        
-        maven { 
-        
-            url = 'http://files.minecraftforge.net/maven'
+
+        mavenCentral()
+
+        maven {
+
+            url = 'https://maven.minecraftforge.net/'
         }
-        
+
         maven {
 
             url 'https://plugins.gradle.org/m2/'
         }
     }
-    
+
     dependencies {
-    
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.1.0'
+
+        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1.+'
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'com.matthewprenger.cursegradle'
-apply plugin: 'maven-publish' 
+apply plugin: 'maven-publish'
 
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/markdown-git-changelog.gradle'
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/minecraft/artifacts.gradle'
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/minecraft/maven.gradle'
 
+import net.minecraftforge.gradle.common.tasks.SignJar
+import org.apache.tools.ant.filters.ReplaceTokens
+
 version = "${mod_version}" + getBuildNumber()
 group = "${mod_group}"
 archivesBaseName = "${mod_name}-${version_minecraft}"
+
+// If the jar file can be signed, use the provided SHA1 hash. If not, use an empty string.
+def fingerprint = project.findProperty('signSHA1') ?: ""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
 
-    version = "${version_minecraft}-${version_forge}"
-    mappings = "${version_mcp}"
-    runDir = 'run'
-    
-    replace '@VERSION@', project.version
-    replace '@FINGERPRINT@', project.findProperty('signSHA1')
-    replaceIn "${mod_class}.java"
+    mappings channel: "${version_mcp_channel}", version: "${version_mcp}"
+
+    // Default run configurations.
+    runs {
+
+        client {
+
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
 }
 
 repositories {
 
     maven {
 
-        url "http://maven.mcmoddev.com"
+        url "https://maven.mcmoddev.com"
     }
-	
+
 	maven {
 
-        url 'http://dvs1.progwml6.com/files/maven'
+        url 'https://dvs1.progwml6.com/files/maven'
     }
 }
 
 dependencies {
 
-    deobfCompile "net.darkhax.bookshelf:Bookshelf-1.12.2:${version_bookshelf}"
-    deobfCompile "mezz.jei:jei_1.12.2:${version_jei}"
+    minecraft "net.minecraftforge:forge:${version_minecraft}-${version_forge}"
+    implementation fg.deobf("net.darkhax.bookshelf:Bookshelf-1.12.2:${version_bookshelf}")
+    runtimeOnly "mezz.jei:jei_1.12.2:${version_jei}"
 }
 
 processResources {
 
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property "mcversion", project.version_minecraft
 
-    from(sourceSets.main.resources.srcDirs) {
-    
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+    filesMatching('mcmod.info') {
+
+        expand 'version': project.version, 'mcversion': project.version_minecraft
     }
-        
-    from(sourceSets.main.resources.srcDirs) {
-    
-        exclude 'mcmod.info'
-    }
-    
+
     from 'LICENSE'
+}
+
+// Copies source code into a temporary build directory, then replaces tokens in source files
+task processSource(type: Sync) {
+
+    inputs.property "FINGERPRINT", fingerprint
+    inputs.property "VERSION", project.version
+
+    from (sourceSets.main.java) {
+
+        filesMatching("net/darkhax/simplyarrows/SimplyArrows.java") {
+
+            filter(ReplaceTokens, tokens: [FINGERPRINT: String.valueOf(fingerprint), VERSION: String.valueOf(project.version)])
+        }
+    }
+
+    into "$buildDir/src"
+}
+
+// Use the processed source files
+compileJava {
+
+    source = processSource.outputs
 }
 
 String getBuildNumber() {
@@ -105,7 +147,7 @@ if (JavaVersion.current().isJava8Compatible()) {
 
 curseforge {
 
-    apiKey = System.getenv('curse_auth') ? System.getenv('curse_auth') : 0 
+    apiKey = System.getenv('curse_auth') ? System.getenv('curse_auth') : 0
     def versions = "${curse_versions}".split(', ')
 
     project {
@@ -151,13 +193,13 @@ curseforge {
     }
 }
 
-task signJar(type: SignJar, dependsOn: reobfJar) {
+task signJar(type: SignJar, dependsOn: jar) {
 
     onlyIf {
-    
+
         project.hasProperty('keyStore')
     }
-    
+
     keyStore = project.findProperty('keyStore')
     alias = project.findProperty('keyStoreAlias')
     storePass = project.findProperty('keyStorePass')
